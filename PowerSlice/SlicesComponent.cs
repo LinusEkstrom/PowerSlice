@@ -14,7 +14,7 @@ namespace PowerSlice
         public SlicesComponent()
             : this(ServiceLocator.Current.GetAllInstances<IContentSlice>()) {}
 
-        public SlicesComponent(IEnumerable<IContentSlice> slices) : base(string.Empty)
+        public SlicesComponent(IEnumerable<IContentSlice> slices) : base("powerslice.components.ContentSliceGroup")
         {
             _slices = slices;
             Categories = new [] { "cms" };
@@ -25,8 +25,9 @@ namespace PowerSlice
 
         public override IComponent CreateComponent()
         {
-            var container = new ComponentGroup("Content");
-            container.ContainerType = ContainerType.System;
+            //Check how to create a container.
+            var container = base.CreateComponent() as IContainer;// { Heading = "Content" };
+            //container.ContainerType = ContainerType.System;
 
             foreach (var slice in _slices.OrderByDescending(x => x.Order))
             {
